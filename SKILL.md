@@ -104,11 +104,54 @@ description: Evidence-backed resume/CV engineering for large-language-model appl
 4. 控制一页 A4：项目简介 1–2 行，每个项目 3–5 条；页面有空白时优先补充真实机制和结果，不重复堆砌关键词。
 5. 优先使用已验证的 RenderCV 版本和 bundled Python；当前环境优先检查 `C:\Users\29215\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe`。旧项目虚拟环境中的 RenderCV 2.2 可能无法读取 2.8 YAML，先检查版本再渲染。
 
+### 6.1 采用稳定的渲染入口
+
+不要直接重复拼接一长串 `rendercv render` 命令。优先使用本 Skill 的
+`scripts/render_resume.py`：它使用临时 staging 目录、只发布本次生成的文件、
+默认只生成 PDF+PNG，并在生成后检查 PDF 签名和页数。
+
+```powershell
+$python = 'C:\Users\29215\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe'
+$script = 'C:\Users\29215\.codex\skills\resume-engineering\scripts\render_resume.py'
+& $python -X utf8 $script $yaml `
+  --output-dir 'C:\Users\29215\Documents\项目一\output\pdf' `
+  --stem '汪岱原_简历母版_带照片'
+```
+
+只有需要提交 Markdown/HTML/Typst 中间文件时才追加 `--all`。不要把项目虚拟环境
+中的 RenderCV 2.2 与使用 2.8 schema 的新 YAML 混用；脚本会给出明确提示，而不是
+留下半成品 PDF。RenderCV 2.2 的 PyPI 新版本检查没有请求超时，脚本绕过该检查；
+RenderCV 2.8 则使用带 180 秒超时的 CLI 入口。
+
 ## 7. 速度分级与验证
 
 - **快速内容模式**：只改文字或顺序时，读取母版和证据台账，直接输出内容包；不跑仓库测试、不渲染 PDF。
-- **完整生成模式**：JD 变化、项目事实变化或用户要求 PDF 时，复制 YAML、运行一次 `rendercv render --quiet`，检查 YAML、PDF `%PDF-` 签名、页数、关键标题/项目名和文本截断；版式变化时再渲染 PNG 做视觉检查。
+- **完整生成模式**：JD 变化、项目事实变化或用户要求 PDF 时，复制 YAML、运行一次 `scripts/render_resume.py`（默认 PDF+PNG；需要中间产物时加 `--all`），检查 YAML、PDF `%PDF-` 签名、页数、关键标题/项目名和文本截断；版式变化时再打开 PNG 做视觉检查。
 - **证据变化模式**：代码、测试报告或指标发生变化时，先跑最小相关测试，再更新台账和简历；将“已合并、已部署、已实时验证”分开记录。
+
+### 7.1 PDF 生成的两阶段检查
+
+1. **生成前**：验证 YAML 是 UTF-8，确认使用的 RenderCV 版本与 schema 匹配，确认输出
+   stem 不含“定向版”，并把旧的同 stem 文件移到可控范围内清理；不删除整个输出目录。
+2. **快速渲染**：调用 `scripts/render_resume.py`，使用临时 staging 目录生成 PDF+PNG，
+   检查 `%PDF-` 签名、页数和 PNG 是否存在，再把通过检查的文件复制到最终目录。
+3. **视觉复核**：只有内容或版式发生变化时才打开 PNG；检查中文字体、照片、日期列、
+   页底、项目标题和是否出现第二页。文本小修不重复跑仓库测试。
+4. **完整归档**：需要中间产物时使用 `--all` 生成 Markdown、HTML、Typst；这些文件
+   是调试和审阅产物，不作为内容源。
+
+### 7.2 已知故障与处理
+
+| 现象 | 原因 | 处理 |
+|---|---|---|
+| RenderCV 启动后长时间没有输出 | 2.2 每次访问 PyPI，网络请求无超时 | 使用 `scripts/render_resume.py` 或 bundled Python 2.8 |
+| `Extra inputs are not permitted` | 2.2 读取了 2.8 YAML schema | 切换到 2.8 runtime，不要直接删 YAML 字段 |
+| 预览图找不到或覆盖旧图 | 多页 PNG 会自动命名为 `_1.png`、`_2.png` | 让脚本统一重命名并清理同 stem 旧产物 |
+| 终端说生成成功但交付文件不是本次版本 | 输出目录或相对路径残留旧文件 | staging 生成后再发布，并检查修改时间和文件签名 |
+| 简历变成两页、页底截断 | 内容超过 A4 可用高度或字体/边距改变 | 默认单页校验失败；先压缩文案，再谨慎调整字号/间距 |
+| 中文乱码或照片异常 | 运行时字体、工作目录或相对资源路径不一致 | 使用 UTF-8、Microsoft YaHei、从 YAML 所在目录渲染并做 PNG 视觉检查 |
+
+具体命令、产物命名和排障顺序见 [references/pdf-rendering.md](references/pdf-rendering.md)。
 
 默认输出以下五部分：`JD岗位画像`、`证据匹配表`、`最终项目/技能文案`、`生成文件与验证结果`、`未覆盖要求与下一步补证据`。若用户只要简历正文，隐藏过程表但保留真实性边界。
 

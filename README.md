@@ -144,8 +144,11 @@ resume-engineering/
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
+├── scripts/
+│   └── render_resume.py
 └── references/
-    └── evidence-ledger-and-writing.md
+    ├── evidence-ledger-and-writing.md
+    └── pdf-rendering.md
 ```
 
 ### 常用调用
@@ -164,6 +167,19 @@ $resume-engineering
 $resume-engineering
 把这次测试结果加入证据库，并检查哪些岗位可以使用。
 ```
+
+### 快速生成 PDF
+
+如果已经有确认过的 YAML，直接用 Skill 里自带的渲染脚本：
+
+```powershell
+python scripts/render_resume.py path\to\resume.yaml `
+  --output-dir path\to\output --stem resume
+```
+
+默认只生成 PDF 和 PNG，速度更快；需要 Markdown、HTML、Typst 中间文件时再加
+`--all`。脚本会处理 RenderCV 版本差异、跳过无意义的联网版本检查、隔离临时产物，
+并检查 PDF 是否损坏或意外变成多页。
 
 ## 输入和输出
 
