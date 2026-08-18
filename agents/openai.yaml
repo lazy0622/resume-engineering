@@ -1,0 +1,4 @@
+interface:
+  display_name: "简历工程化"
+  short_description: "LLM/Agent/RAG/后端岗位的证据驱动简历与 PDF 生成"
+  default_prompt: "Use $resume-engineering to tailor my resume for this LLM/Agent/RAG/backend JD, use only verified evidence, and generate a one-page PDF."
