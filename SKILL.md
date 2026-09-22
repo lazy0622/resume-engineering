@@ -1,6 +1,6 @@
 ---
 name: resume-engineering
-description: Evidence-backed resume/CV engineering for large-language-model applications, AI Agent/Agent Runtime/Harness, RAG, Python/FastAPI backend, AI platform/LLMOps, and computer-vision/deep-learning roles. Use when a user provides a JD or asks for 简历、简历母版、项目描述、自我评价、STAR/PAR/XYZ、ATS、RenderCV or PDF; maintain a career evidence vault, match projects to requirements, write interview-defensible bullets, or compose and verify a one-page resume.
+description: Evidence-backed resume/CV engineering for large-language-model applications, AI Agent/Agent Runtime/Harness, RAG, Python/FastAPI backend, AI platform/LLMOps, and computer-vision/deep-learning roles. Preserve technical depth while adding recruiter-readable context, deliverables, and results. Use when a user provides a JD or asks for 简历、简历母版、项目描述、自我评价、STAR/PAR/XYZ、ATS、RenderCV or PDF; maintain a career evidence vault, match projects to requirements, write interview-defensible bullets, or compose and verify a target-density resume.
 ---
 
 # 简历工程化
@@ -12,11 +12,59 @@ description: Evidence-backed resume/CV engineering for large-language-model appl
 
 用户只说“根据这个 JD 生成简历”时，执行完整流程；只说“改项目描述/自我评价”时，不渲染 PDF；只说“生成 PDF/换 JD 标题”时，复用已确认内容并进入排版模式。
 
+## 0.1 统一写作原则：技术主线 + HR 可读增强层
+
+所有简历共享同一份 canonical evidence vault，不维护互相矛盾的“HR 版”和“技术版”。在同一事实基础上生成不同投递视图：通过项目顺序、句子长度、summary、照片和信息密度适配纸质、定向和 ATS 场景，但不删掉唯一的机制或验证证据。
+
+- **技术主线必须保留：** Agent/RAG/后端项目仍要展示系统闭环、个人主导模块、关键机制、工程约束和测试/评测结果；不能因为面向 HR 而删成“做了一个 AI 应用”。
+- **HR 可读增强：** 不是删除技术，而是增加场景解释层。每个项目简介先用一句中文说明产品/系统用途；每条 bullet 用“可理解的动作或产出 → 关键技术机制 → 结果/验证”组织，首次出现的内部术语配中文解释。
+- **不同 JD 只改变取舍和顺序：** Agent/Harness 岗突出 Loop、Tool、Context、恢复和安全；RAG/AI 应用岗突出解析、检索、引用和评测；Python 后端岗突出 API、异步任务、鉴权和可靠性，不改变基本写法。
+- **Agent/大模型应用默认版不是简化版：** 默认服务 Agent 应用、Agent Runtime/Harness、RAG 和 AI 后端岗位；每个核心项目保留系统闭环、关键机制和结果/验证证据，页面有空白时优先恢复高价值技术证据或补设计取舍，不堆框架名。
+
+## 0.2 默认求职主线：Agent / 大模型应用
+
+当用户没有指定其他方向时，默认按 Agent / 大模型应用岗位生成一套主简历：
+
+- **首屏定位：** 让 HR 在 6 秒内看懂“能把大模型接入企业系统并做成可运行 Agent”，而不是只看到“会很多框架”。
+- **实习重点：** Hongyang 只按用户确认的组织同步、日志/审计、权限密级校验与审计闭环证明企业 Agent 后端能力；武汉实习负责证明大模型结构化输出校验、异常分析和 Python 数据清洗。
+- **项目重点：** Repo Coding Runtime 证明 Agent Runtime、工具治理、验证与恢复；PaperTrail 证明 RAG、证据链、引用约束和评测；只有 CV/深度学习 JD 才加入 LTE-SGDE。
+- **默认组合：** 教育经历 → 两段实习 → Repo Coding Runtime → PaperTrail → 技术能力。默认生成 standard 密度视图；用户需要纸质双选会、强匹配技术岗或 ATS 网申时，沿用同一证据库切换 density/profile，不重写事实。
+- **标题取舍：** 通用主简历使用“大模型应用 / Agent 研发”方向；定向简历只使用 JD 的准确职位名称，不追加公司、校招、可转正或职位编号。
+
+## 0.3 岗位族谱与母版路由
+
+收到 JD 后先判断岗位族，再选择母版；不得因为 JD 出现某个关键词就把它加入技能栏：
+
+| 岗位族 | P0 关注点 | 默认母版 | 主要证据 |
+|---|---|---|---|
+| AI 应用 / Agent 后端 | 业务 AI、Prompt、Workflow、Agent、API、服务集成、交付 | AI 应用 / Agent | 两段实习 + Repo + PaperTrail |
+| Agent Runtime / Harness / 平台治理 | Loop、State、Tool、MCP、权限、恢复、审计、沙盒 | Agent Runtime / Harness | Repo + Hongyang |
+| RAG / 企业知识库 / 检索评测 | 解析、Embedding、向量库、Hybrid、Rerank、引用、评测 | RAG / 知识库评测 | PaperTrail + 武汉实习 |
+| AI 模型应用 / 算法 / 训练 | PyTorch、SFT、数据集、训练、模型部署、消融 | 条件分支，不默认启用 | LTE-SGDE + 明确模型/数据证据 |
+| FDE / 解决方案 / AI 全栈 | 客户交付、系统集成、产品迭代、前后端协作、场景落地 | 按 JD 选择组合 | Hongyang + Repo + PaperTrail |
+| CV / 多模态 / 时序 | 模型、数据集、训练/推理、消融、泛化协议 | 条件分支，不默认启用 | LTE-SGDE + 明确模型/数据证据 |
+
+路由规则：先按“入职后主要结果”分类，再识别执行模式（业务流程编排、单 Agent+工具、多 Agent、Runtime/治理、RAG/搜索、模型训练/推理或全栈交付）；同时检查 Direct/Transferable/Adjacent/Gap、负向约束和责任深度。路由结果内部记录 primary route、secondary route、confidence 和 top 3 missing evidence；若两个岗位族接近，不悄悄替用户做单一路由。
+
+当前可复用母版文件：
+
+- `汪岱原_AI应用Agent通用母版.yaml`
+- `汪岱原_AgentRuntime_Harness通用母版.yaml`
+- `汪岱原_RAG知识库评测通用母版.yaml`
+
+它们是岗位族底稿，不是互相删减的“HR 版/技术版”；定向生成时复制对应母版，再按 role profile 调整标题、项目顺序、技能取舍、bullet 长度和证据密度。事实、日期、贡献边界和数字必须来自同一证据库。
+
+学历日期口径：中南民族大学硕士统一写为 `2024.09-2027.07`，不再使用“至今”。
+
 ## 0. 识别触发词与任务边界
 
 将以下表达视为本 Skill 的明确触发：`根据 JD/岗位生成简历`、`定向简历/简历母版`、`优化 Agent/RAG/大模型项目`、`Python 后端项目描述`、`STAR/PAR/XYZ`、`ATS 匹配`、`RenderCV/PDF 简历`、`建立简历素材库/证据台账`。将 `求职岗位筛选`、`面试题整理` 或 `求职信` 视为相邻任务：只有用户同时要求简历内容时才进入本 Skill，避免把岗位搜索或面试准备混入简历正文。
 
 把“职业证据库”视为长期资产，把每次岗位简历视为可丢弃的衍生版本。默认只读取母版和证据台账；要新增或修改长期素材时，先输出待写入条目和来源，得到用户确认后再持久化。
+
+正式简历只读取 `verified` 且允许公开的条目，或 `historical` 且明确带时间/环境限定、`publishability: public_with_qualifier` 的条目。用户确认的是事实或允许使用的表述时，记录确认来源；“先按这个写”不能把 `proposed`/`unknown` 自动升级为 `verified`。文件或段落标记为 `provisional`、`simulated`、`待验证`、`待确认` 的内容只能用于内部排版或验证清单，不能自动进入正式简历。
+
+每条正式 summary、实习 bullet、项目 bullet、技能行和量化结果都应绑定 `claim_id`；只有纯定位句可以标记 `profile_claim: true`。claim 的原始事实、来源、个人边界、范围、验证命令和允许投递视图集中维护在证据台账，不在多个 YAML 中手工改写。详细字段与校验脚本见 [references/evidence-ledger-and-writing.md](references/evidence-ledger-and-writing.md) 和 `scripts/validate_claim_manifest.py`。
 
 ## 1. 读取边界与来源优先级
 
@@ -27,7 +75,7 @@ description: Evidence-backed resume/CV engineering for large-language-model appl
 
 ## 2. 解析 JD，形成岗位画像
 
-把 JD 整理为结构化表，不要只复制关键词：
+把 JD 整理为结构化表，不要只复制关键词；同时生成 `route_basis`，记录主/次岗位族、执行模式、P0 职责、负向约束、最强证据、决策规则、置信度和缺失证据：
 
 | 类别 | 提取内容 |
 |---|---|
@@ -40,11 +88,13 @@ description: Evidence-backed resume/CV engineering for large-language-model appl
 
 将关键词归入“职责—技术机制—工程质量—结果指标”四层；区分“会用某工具”和“用它解决了某问题”。标题只使用 JD 的岗位名称，不把多个相近岗位拼成一个标题。
 
+先完成岗位族分类，再做关键词匹配。OpenClaw、Hermes、Coze、vLLM、Text2SQL、SFT、Pandas/NumPy、消息队列等 JD 关键词，如果证据库中没有 Direct 或明确的 Transferable 依据，不得自动加入技能栏。
+
 ## 3. 选择项目和素材
 
 1. 为每个项目计算匹配度：`0.35×P0职责 + 0.25×P1技术证据 + 0.20×可验证结果 + 0.10×个人主导程度 + 0.10×面试可解释性`。按证据而不是按框架数量排序。
-2. 默认保留 2–3 个项目。用户的通用 Agent/AI 应用顺序为 **Repo Coding Runtime → PaperTrail → Hongyang 实习**；简历结构中实习经历放在项目经历前，项目内部仍可突出 Repo → PaperTrail。JD 偏 CV/深度学习时再加入 LTE-SGDE 论文，压缩无关项目而不是把所有项目都写满。
-3. 每个项目只保留能支撑岗位画像的 3–5 条核心工作；一条只讲一个主题，优先覆盖架构、关键机制、工程可靠性和结果。
+2. 通常保留 2–3 个最相关项目，但由页面密度、岗位 P0 和证据强度决定。用户的通用 Agent/AI 应用顺序通常为 **Repo Coding Runtime → PaperTrail**；RAG 岗可将 PaperTrail 前置，Python 后端岗按实习和后端证据前置，FDE/AI 全栈岗按系统集成和交付证据排序。JD 偏 CV/深度学习时再加入 LTE-SGDE，不能把项目顺序当成所有岗位的硬规则。
+3. 项目 bullet 数量自适应：每个项目至少覆盖“系统/问题、个人机制、交付物或结果”中的三类内容；条数由信息闭环和投递视图决定，只有在重复、无证据或与 P0 无关时才删减。页面有空间时优先恢复唯一的技术闭环，不为凑条数添加空话。
 4. 读取或更新“证据台账”（见 `references/evidence-ledger-and-writing.md`）。把同一事实的代码路径、测试命令、报告和面试追问绑定在一起，避免不同版本简历出现口径漂移。
 
 将 JD 与素材的匹配标记为四类，而不是只给一个模糊分数：
@@ -76,6 +126,44 @@ description: Evidence-backed resume/CV engineering for large-language-model appl
 
 对 Agent、RAG 和平台项目补充一个设计取舍或失败模式：说明为什么选择该机制、它防止了什么故障，以及未覆盖的边界。不要为了体现深度凭空添加性能收益。
 
+### 4.1 技术主线上的 HR 可读增强
+
+可读性增强不是删除技术，而是给技术事实补上场景、产出和解释。项目简介与 bullet 统一使用：
+
+`可理解的场景/产出 → 个人动作与技术机制 → 结果/验证边界`
+
+- 项目简介先回答“这是什么系统、给谁使用、解决什么问题”，再补技术栈。例如“面向论文阅读与技术调研，基于 Python/FastAPI、Streamlit、Qdrant 与 LangGraph 构建可溯源 Agentic RAG 系统”后，应接“支持资料上传、证据检索、带引用问答和研究报告生成”。
+- 每个项目至少保留三类证据：一条讲系统或产品闭环，一条讲个人实现的关键机制，一条讲交付产出或测试/评测结果。没有线上指标时写模块交付、规则/样例、评测集、报告、测试联调或固定测试边界。
+- 技术名词只在有解释价值时保留。`ToolPolicy/ToolGateway` 首次写成“工具调用与权限校验（ToolPolicy/ToolGateway）”，`Checkpoint/Resume` 写成“失败后可恢复执行”，`Repo Index` 写成“代码仓库索引与依赖定位”；之后可直接使用简称。
+- 一条 bullet 不要连续堆叠多个内部变量名、状态枚举和模块类名。`content_hash/index_version`、`queued/running/...` 等只有在能说明幂等、恢复或版本控制时才保留，并在同句解释作用。
+- 保留有口径的技术指标，但补齐它代表什么：写“固定 24 项回归任务全部通过”，而不是只写“23/24→24/24”；写“固定安全场景下拦截率 100%，误拦截和泄漏均为 0%”，同时保留“固定场景”边界。没有具体数值的 `P95`、`Precision@K`、`Recall@K`、`MRR` 等可写成“检索、引用和延迟评测指标”，不要让指标名变成无解释的清单。
+- HR 先看到动作和产出，技术面试官随后能沿着同一句追问架构、失败处理、取舍和验证命令；不要把前者和后者拆成两份互相缺信息的简历。
+- **Agent 实习的推荐结构：** 优先覆盖“系统服务谁/解决什么问题 → 个人交付与关键机制 → 结果、覆盖范围或验证边界”。这是内容检查顺序，不是固定三条；证据不足时保留缺口，不为了凑条数制造结果。
+- **量化数字的叙事顺序：** 先写变化或用户价值，再写数字和实现方式。例如先写“让 5 类日志可以按租户、用户、资源和 Trace 追踪”，再写“覆盖 7 类业务、117 种事件”；不要直接堆“117 事件、50 测试、30 场景”。
+- **HR 可读的技术翻译：** \`AgentRuntimeContext\` 先解释为“服务端运行上下文”；\`ToolPolicy/ToolGateway\` 先解释为“工具权限与风险治理”；\`Skill\` 先解释为“可复用 AI 技能资产”；\`Checkpoint/Resume\` 先解释为“失败后可恢复执行”。同一 bullet 最多保留 2–3 个必须追问的内部名词。
+
+### 4.2 产出证据与指标预算
+
+HR 需要先看到“交付了什么、带来什么变化”，再看到实现细节。每段实习和每个核心项目都按以下四元组检查：
+
+`服务对象/问题 → 个人动作 → 明确交付物 → 结果或验证边界`
+
+- **交付物必须是可指认的名词：** 例如异步组织同步任务、权限/密级校验链、统一审计日志规范、结构化字段校验规则、异常样例集、评测集、测试链路或评测报告；“参与建设”“负责优化”不能单独充当产出。
+- **实习内容的最低覆盖：** 不固定 bullet 数；在可用空间内优先覆盖系统服务谁、个人交付物、关键机制和结果/验证。若两条已形成闭环，不为凑三条拆句；若核心岗位证据充足，可保留四条以上。若结果证据缺失，明确写验证边界，不用模拟数字填空。
+- **指标分层：** 优先写业务/用户价值，其次写流程效率，再写可靠性/测试边界，最后写实验指标。没有业务 KPI 时，使用“交付物 + 使用范围 + 固定测试结果”，不要用行业常见数字补空白。
+- **数字密度警戒线：** 每段实习默认控制在 2–3 组、每个项目默认控制在 2–3 组核心数字，但不是删除硬规则。若数字直接证明 JD P0、口径清楚且面试可解释，允许例外；需要把环境、样本、基线或历史版本写在数字附近。
+- **低绝对值实验必须带口径：** Recall@K、MRR 等指标要同时写固定评测集、基线和对比结论，不写成通用准确率或生产效果；如果数字会遮蔽项目价值，先写“完成四档可复现实验并确定收益边界”，再保留简短对比。
+- **禁止语义漂移：** 为了贴合 JD 不得把课堂结构化输出改写成代码生成、把组织同步改写成客服产品、把本地测试改写成线上用户收益；JD 关键词只能改变表达重点，不能改变事实场景。
+
+### 4.3 首屏六秒审阅
+
+- 标题只出现一个明确岗位方向；联系方式、教育阶段和两段实习时间一眼可见。
+- 每段实习 summary 先写服务对象/规模和个人交付，再写技术栈；第一条 bullet 的前半句必须能回答“做了什么、交付了什么”。
+- 技术名词连续出现超过 3 个时，补一个中文作用解释；内部类名不应成为 bullet 的主语。
+- 对 AI 应用、Agent 工程师等宽岗位，可在页首增加 1–2 行“定位摘要”；如果会挤压项目结果或导致两页，宁可不加，不为形式牺牲证据密度。
+- 技能栏保留正文或证据台账中有明确依据的能力；正文空间不足时，允许为 ATS 保留证据台账支持但未在正文展开的关键词，并在内部记录来源。没有任何证据的 JD 关键词标为 Gap 或删除。
+- 陌生英文项目名优先补一句中文用途解释；项目名已经表达用途时不重复解释。
+
 按岗位选择表达重点：
 
 - **Agent/Harness**：Runtime、Loop/State、Supervisor/TaskGraph、Tool Use、Context/Memory、恢复、沙盒、Trace、评测。
@@ -92,17 +180,18 @@ description: Evidence-backed resume/CV engineering for large-language-model appl
 使用这些已确认方向，但每次生成前仍以当前仓库和报告复核：
 
 - **Repo Coding Runtime**：本地仓库级 Coding Agent Runtime/Harness；AgentLoop、TaskState、ExecutionPolicy、Supervisor/TaskGraph、持久化 RepoIndex、Patch/验证/回滚、ToolGateway、MCP stdio、Git Worktree、Host/Docker 沙盒、Trace 与 RepoRuntimeBench。可写 `24/24` 固定回归、`23/24→24/24` 策略消融和固定安全集 `100%/0%/0%`，但不能写未经验证的 SWE-bench solve rate。
-- **PaperTrail**：Python/FastAPI、Qdrant、LangGraph 的论文调研 Agentic RAG；按页解析、contextual chunk、OpenAI-compatible Chat/Embedding、dense+sparse/IDF Hybrid、RRF、可选 Cross-Encoder、持久化异步 ingestion、SQLite WAL、retry/restart recovery、引用约束、Research Agent、20 条 QA 评测集、Retrieval Matrix、Ground Truth、Trace 和 Bad Case；当前以实际测试报告为准，不能把未产生的线上准确率写进简历。
-- **Hongyang 实习**：面向高安全等级企业的 Dify 二次开发与私有化平台；统一认证/组织同步、权限与密级、知识库过滤、助理门户、审计日志、AgentRuntimeContext/ToolPolicy/Tool Gateway 和裸机部署。按实习经历展示，只有真正完成并验证的 Agent 治理能力才使用“负责实现”。
+- **PaperTrail**：Python/FastAPI、Qdrant、LangGraph 的论文调研 Agentic RAG；已完成 20 条 QA 的四档 Retrieval Matrix，Contextual Hybrid + Rule 相较 Contextual Hybrid 的固定集 Recall@5 为 `0.125→0.250`、MRR 为 `0.0767→0.1308`；5 篇论文/685 chunks 本地入库 `32.48s`，恢复 `20/20`、幂等去重 `20/20`，API/多进程补测后完整测试 `45 passed`。Cross-Encoder 因依赖缺失 skipped，gold evidence `0/20`，不能写引用正确率、语义准确率或生产性能。
+- **Hongyang 实习**：面向高安全等级企业的 Dify 二次开发与私有化平台；当前简历只按用户确认的组织同步、日志/审计、权限与密级校验/审计闭环展示，不把其他平台功能自动扩写成个人主导成果。只有真正完成并验证的 Agent 治理能力才使用“负责实现”。
 - **LTE-SGDE 论文**：仅在 CV/深度学习/时序岗位需要时加入；保留 NTU RGB+D 60/120 的真实协议和指标，说明轻量时序建模、语义引导判别增强、消融/泛化实验，不扩写成通用 Agent 经验。
 
 ## 6. 组合 RenderCV 母版
 
 1. 从用户指定的母版 YAML 复制出目标文件；不要直接编辑母版，也不要编辑生成的 PDF/PNG。
-2. 保留“教育经历 → 实习经历 → 项目经历 → 专业技能”的版式。实习放在项目之前；通用 Agent 版在项目区按 Repo → PaperTrail 排序，Hongyang 留在实习区。
-3. 标题只填 JD 的精确岗位名称；不要写“Agent/AI 应用/Python 后端”等多个职位。文件名不要出现“定向版”。
-4. 控制一页 A4：项目简介 1–2 行，每个项目 3–5 条；页面有空白时优先补充真实机制和结果，不重复堆砌关键词。
-5. 优先使用已验证的 RenderCV 版本和 bundled Python；当前环境优先检查 `C:\Users\29215\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe`。旧项目虚拟环境中的 RenderCV 2.2 可能无法读取 2.8 YAML，先检查版本再渲染。
+2. 保留“教育经历 → 实习经历 → 项目经历 → 专业技能”的基本版式。实习放在项目之前；standard 通用 Agent 版默认 Repo → PaperTrail，但 role profile 可将 PaperTrail、后端证据或系统集成证据前置，Hongyang 留在实习区。
+3. 标题只填 JD 的精确岗位名称；不要写“Agent/AI 应用/Python 后端”等多个职位。文件名不要出现“定向版”、城市、公司、招聘类型或职位编号；城市只用于内部岗位路由，不进入交付文件名。
+4. Agent/大模型应用主简历标题使用稳定的 Agent 方向，不追加公司、城市、校招、可转正、职位编号等标签；默认不放个人 GitHub 或其他社交账号，除非用户明确要求。定向版仍只填 JD 的精确岗位名称，标题和文件名都不加地点后缀。
+5. 默认以一页 A4 为目标，但不是内容删除命令。排版溢出时按“删重复表述 → 删无证据关键词 → 调整次要 bullet/项目 → 谨慎调整字号间距”的顺序处理；不得为了单页删除项目唯一的机制或验证证据。技术匹配强、证据不可压缩时允许两页，第二页必须保持信息密度。
+6. 优先使用已验证的 RenderCV 版本和 bundled Python；当前环境优先检查配置的 bundled Python。旧项目虚拟环境中的 RenderCV 2.2 可能无法读取 2.8 YAML，先检查版本再渲染。
 
 ### 6.1 采用稳定的渲染入口
 
@@ -123,22 +212,48 @@ $script = 'C:\Users\29215\.codex\skills\resume-engineering\scripts\render_resume
 留下半成品 PDF。RenderCV 2.2 的 PyPI 新版本检查没有请求超时，脚本绕过该检查；
 RenderCV 2.8 则使用带 180 秒超时的 CLI 入口。
 
+### 6.2 投递视图与内容密度
+
+把简历视为 canonical evidence vault 的投影，不维护互相删改的事实版本：
+
+| 视图 | 用途 | 默认密度与版式 |
+|---|---|---|
+| compact | 纸质双选会、快速人工筛选 | 更紧凑；减少重复解释，但保留核心机制和结果 |
+| standard | 通用 Agent / AI 应用主简历 | 一页优先；实习和核心项目形成完整闭环 |
+| technical | 强匹配技术岗、面试官直投 | 允许更高密度或两页；保留关键机制、实验口径和面试追问证据 |
+| ats | 网申/ATS | 单栏、可复制文本、无照片依赖；关键词必须嵌入有事实支撑的经历句 |
+
+不同视图只允许改变项目顺序、bullet 长度、summary 是否出现、照片/视觉元素和信息密度；公司、日期、数字、个人贡献、上线状态和证据等级必须一致。用户未指定时使用 `standard`，纸质双选会使用 `compact`，强技术岗位可使用 `technical`，在线系统另生成 `ats`。
+
 ## 7. 速度分级与验证
 
 - **快速内容模式**：只改文字或顺序时，读取母版和证据台账，直接输出内容包；不跑仓库测试、不渲染 PDF。
 - **完整生成模式**：JD 变化、项目事实变化或用户要求 PDF 时，复制 YAML、运行一次 `scripts/render_resume.py`（默认 PDF+PNG；需要中间产物时加 `--all`），检查 YAML、PDF `%PDF-` 签名、页数、关键标题/项目名和文本截断；版式变化时再打开 PNG 做视觉检查。
 - **证据变化模式**：代码、测试报告或指标发生变化时，先跑最小相关测试，再更新台账和简历；将“已合并、已部署、已实时验证”分开记录。
 
+### 7.0 默认快速生成路径
+
+当用户只提供一个新 JD，且岗位族、证据台账、母版和联系方式没有变化时，先选择 `compact/standard/technical/ats` 投递视图，再使用快速路径：
+
+1. 只读取 JD 图/文本、对应岗位族母版和必要的证据条目，不重复展开全部素材库。
+2. 在一次编辑中完成独立 YAML 的复制与定向改写；核心 claim 文本、指标、日期和贡献边界从证据台账/manifest 生成或校验，再调用一次稳定渲染脚本生成 PDF+PNG。
+3. 只做一次页数/签名/关键文本检查和一次 PNG 视觉复核；不重复打开未改变的母版、旧 PDF 或旧 PNG。
+4. 只有出现新岗位族、证据/指标变化、版面溢出、图片文字不清或用户要求“严厉审查”时，才切换完整深审路径。
+
 ### 7.1 PDF 生成的两阶段检查
 
 1. **生成前**：验证 YAML 是 UTF-8，确认使用的 RenderCV 版本与 schema 匹配，确认输出
-   stem 不含“定向版”，并把旧的同 stem 文件移到可控范围内清理；不删除整个输出目录。
+   stem 不含“定向版”、城市或地点后缀，并把旧的同 stem 文件移到可控范围内清理；不删除整个输出目录。
 2. **快速渲染**：调用 `scripts/render_resume.py`，使用临时 staging 目录生成 PDF+PNG，
    检查 `%PDF-` 签名、页数和 PNG 是否存在，再把通过检查的文件复制到最终目录。
 3. **视觉复核**：只有内容或版式发生变化时才打开 PNG；检查中文字体、照片、日期列、
    页底、项目标题和是否出现第二页。文本小修不重复跑仓库测试。
 4. **完整归档**：需要中间产物时使用 `--all` 生成 Markdown、HTML、Typst；这些文件
    是调试和审阅产物，不作为内容源。
+
+5. **ATS 文本检查**：生成 `ats` 视图时，必须从 PDF 或 Markdown 提取纯文本，确认岗位名、学校、公司、项目名、日期、Python 和 JD 关键能力均可检索；照片、图标和视觉线条不能承载唯一关键信息。
+6. **面试可辩护性 lint**：对每条高风险主张准备五问：代码/报告入口、调用链、失败模式、测试命令、个人负责边界。任一问题无法回答时，降低动词强度或移出正式简历。
+7. **Claim/view manifest lint**：存在多份投递视图或高风险量化主张时，运行 `scripts/validate_claim_manifest.py --manifest <canonical.json> --views <view.json> ... --artifacts <最终 Markdown/TXT/PDF>`；强制检查 view manifest、required claim 覆盖、approved phrasing、指标/范围 token、禁止表述以及最终交付文本是否实际包含 rendered text。允许视图省略或压缩 claim，但不允许改变数字、日期、scope、ownership、status 或禁止表述。脚本通过后仍需人工完成 HR、技术和面试三轮审阅。
 
 ### 7.2 已知故障与处理
 
@@ -153,22 +268,43 @@ RenderCV 2.8 则使用带 180 秒超时的 CLI 入口。
 
 具体命令、产物命名和排障顺序见 [references/pdf-rendering.md](references/pdf-rendering.md)。
 
-默认输出以下五部分：`JD岗位画像`、`证据匹配表`、`最终项目/技能文案`、`生成文件与验证结果`、`未覆盖要求与下一步补证据`。若用户只要简历正文，隐藏过程表但保留真实性边界。
+默认输出以下五部分：`JD岗位画像`、`route_basis 与证据匹配表`、`最终项目/技能文案`、`生成文件与验证结果`、`未覆盖要求与下一步补证据`。若用户只要简历正文，隐藏过程表但保留真实性边界。
 
 完整生成时增加一份可追溯报告：列出岗位覆盖度、Direct/Transferable/Adjacent/Gap 匹配、每条重要改写的“原文 → 新文案 → 仍然准确的原因”、未满足要求、面试准备问题和生成文件路径。用户只要最终 PDF 时可隐藏报告内容，但仍先在内部完成检查。
 
-在交付前做两轮审阅：第一轮站在 HR/ATS 角度检查岗位标题、P0/P1 关键词、首屏可读性和项目相关性；第二轮站在技术面试官角度检查每条主张能否追问出架构、数据、失败处理、取舍、指标口径和证据来源。两轮都通过后再生成 PDF。
+在交付前做三轮审阅：第一轮站在 HR/ATS 角度检查岗位标题、P0/P1 关键词、首屏可读性和项目相关性；第二轮站在技术面试官角度检查架构、数据流、失败处理、取舍、指标口径和证据来源；第三轮做面试可辩护性 lint，逐条检查代码入口、调用链、测试命令和个人边界。三轮都通过后再生成 PDF。
 
 ## 8. 交付前检查清单
 
 - [ ] 岗位标题与 JD 完全一致，未混入其他职位。
+- [ ] 技术主线与 HR 可读增强层同时存在：每个项目都有系统/机制证据，也有清晰产出或验证结果。
+- [ ] 已选择投递视图（compact/standard/technical/ats）；不同视图只改变密度和顺序，不改变事实。
+- [ ] 每条 summary、实习 bullet、项目 bullet、技能行和量化结果都有 claim_id 或明确标记为 profile_claim；多视图已完成事实一致性校验。
+- [ ] 已先完成岗位族和执行模式分类，并记录 primary/secondary route、confidence 和 missing evidence；没有把不同岗位共用一套项目顺序。
+- [ ] 首屏能快速看懂方向；每段实习和每个项目至少有一个清晰的交付产出。
+- [ ] 每段实习和每个核心项目至少形成“问题/系统、个人机制、交付物、结果/验证”中的三类证据，不按固定 bullet 数硬切。
+- [ ] 内部变量名、状态枚举和无数值指标名没有无解释堆叠；关键英文术语有中文上下文，技术关键词仍保留在项目或技能栏。
+- [ ] 每段实习优先覆盖“系统/用户价值、关键机制、结果/验证”三类信息；若证据或版面不足，明确缺口并保留最有价值的闭环，不为凑句子制造内容。结果数字紧邻样本、基线、环境或固定场景。
+- [ ] 数字密度经过警戒检查：优先保留与 JD P0 直接相关、口径清楚且面试可解释的数字；例外数字有环境、样本、基线或历史版本说明。
+- [ ] 117/50/30 等覆盖数字不能单独出现；必须说明它代表事件目录、测试用例、固定场景或其他明确口径。
 - [ ] 每条项目描述都有场景、机制和结果/边界，且能指出证据来源。
 - [ ] 没有把计划、设计草案、历史数据或未验证生产指标写成已实现。
 - [ ] 关键词服务于职责，没有堆砌框架名；项目数量与一页版面匹配。
-- [ ] 实习在项目之前；默认项目顺序和用户指定顺序一致。
-- [ ] PDF 命名不含“定向版”；生成后确认一页、无截断、无乱码。
+- [ ] 技能栏中的每个关键能力都能在正文或证据台账中找到使用场景；没有证据的 JD 关键词列为 Gap，不写成“熟悉”。
+- [ ] 实习在项目之前；项目顺序按岗位 P0 匹配度和证据强度决定，不把 Repo → PaperTrail 当作所有岗位的硬规则。
+- [ ] PDF/PNG 命名不含“定向版”、城市或地点后缀；生成后确认页数、无截断、无乱码；ATS 视图另完成纯文本提取检查。
+- [ ] 联系方式和社交账号符合用户偏好；未在未授权时加入个人 GitHub 链接。
+- [ ] 不同衍生简历与当前母版的实习、日期、联系方式和字号没有明显漂移；旧版本明确标记为不可投递。
 - [ ] 没有把 XYZ 数字、设计目标或团队结果误写成个人已验证成果。
+- [ ] 没有只挑正向实验结果；低绝对指标、Bad Case、skipped 或 blocked 依赖已进入边界说明和面试准备。
+- [ ] JD 的未覆盖要求已单独列出，未用技能关键词伪装匹配。
+- [ ] 每条高风险主张都能回答代码/报告入口、调用链、失败模式、测试命令和个人边界五问。
+- [ ] 没有为了贴合 JD 改变事实场景；交付物、用户价值和验证边界与素材库口径一致。
 - [ ] 至少一条核心 bullet 能说明关键设计取舍或失败处理；没有证据时明确写边界。
 - [ ] 经过 HR/ATS 和技术面试官两轮检查，所有主张都能在面试中解释。
 
 详细的证据台账字段、STAR/PAR 写作公式、岗位映射、指标口径和公开参考来源见 [references/evidence-ledger-and-writing.md](references/evidence-ledger-and-writing.md)。
+
+## 9. 规则优先级与自适应边界
+
+本 Skill 中出现的“默认 2–3 个项目”“两到三组数字”“一页优先”“compact 更紧凑”“核心项目保留若干 bullet”等都是初始建议，不是删除命令或硬 schema。最终取舍按 JD P0 → 证据强度 → 面试可辩护性 → 投递视图 → 页面空间决定：宁可少放一个次要项目，也不要删除唯一的机制、交付物、结果或边界证据；技术密度足够且岗位强匹配时允许两页。任何正式文本都应从 claim manifest 生成或校验，手工 YAML 只允许调整布局、顺序和已批准的视图覆盖。
